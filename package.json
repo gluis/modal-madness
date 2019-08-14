@@ -1,0 +1,32 @@
+{
+  "name": "modal-madness",
+  "version": "1.0.0",
+  "description": "javascript and html modal library",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpack": "webpack",
+    "start": "webpack-dev-server --mode development --watch --hot",
+    "build": "wepback --mode production"
+  },
+  "author": "l@nataloo.com",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.2.0",
+    "extract-loader": "^3.1.0",
+    "file-loader": "^4.2.0",
+    "node-sass": "^4.12.0",
+    "postcss-loader": "^3.0.0",
+    "sass-loader": "^7.2.0",
+    "webpack": "^4.39.2",
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "^3.8.0",
+    "write-file-webpack-plugin": "^4.5.1"
+  },
+  "dependencies": {
+    "autoprefixer": "^9.6.1"
+  }
+}

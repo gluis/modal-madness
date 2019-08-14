@@ -1,0 +1,108 @@
+  // COLORS
+$white: #FFFFFF;
+$black: #000000;
+$body-background: $white;
+
+body {
+  font-family: sans-serif;
+} // body
+
+
+/******** GALLERY-NEW  *********/
+
+// Pages that have square thumbnails for users to click on to open full screen version 
+.gallery-page-new {
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 300;
+    margin: 1rem 0;
+    line-height: 2rem;
+  } // h1
+  .blurb {
+    p {
+      padding-bottom: 1rem;
+      column-width: 600px;
+      column-gap: 2rem;
+      line-height: 1.5rem;
+    } // p
+  } // .blurb
+  .thumbnail-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    
+    .gallery-thumb {
+      width: 250px;
+      padding: 1rem;
+      img {
+        width: 100%;
+      } // img
+    } // .gallery-thumb
+  } // .thumbnail-container
+} // .gallery-page-new
+
+/******** END GALLERY-NEW  *********/
+
+/******** MODAL  *********/
+
+#modal-window {
+  display: none;
+  &.active {
+    background-color: $black;
+    background-size: cover;
+    display: block;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 40;
+    overflow: scroll;
+  } // &.active
+
+  #modal-prev, #modal-next {
+    color: $body-background;
+    position: absolute;
+    padding: 2rem;
+    font-size: 2rem;
+    z-index: 10;
+    &:hover {
+      cursor: pointer;      
+    } // &:hover
+  } // #modal-prev, #modal-next
+
+  #modal-close {
+    color: $body-background;
+    display: block;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    cursor: pointer;
+  } // .close
+
+  #modal-content {
+    text-align: center;
+    position: relative;
+    top: 10%;
+  } // #modal-content
+
+  .modal-image-view {
+    #modal-image { // img element
+      height: auto;
+      width: auto;
+      animation: fadeIn ease 3s;
+    } // #modal-image
+  } // .modal-image-view
+
+  .modal-text-view {
+    #modal-text { // p element
+      text-align: center;
+      padding: 1rem;
+      color: $body-background;
+      font-family: inherit;
+    } // #modal-text
+  } // .modal-text-view
+} // #modal-window
+
+/******** END MODAL  *********/
