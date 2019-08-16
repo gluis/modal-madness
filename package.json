@@ -9,7 +9,7 @@
     "start": "webpack-dev-server --mode development --watch --hot",
     "build": "wepback --mode production"
   },
-  "author": "l@nataloo.com",
+  "author": "gluis",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.5.5",
