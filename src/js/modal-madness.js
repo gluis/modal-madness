@@ -246,11 +246,15 @@ const MM = {
       },
 
       touchHandleSwipeLeft: () => {
-        MM.populateModal(MM.prevLink.href, MM.prevLink.title);
+        if (MM.prevLink) {
+          MM.populateModal(MM.prevLink.href, MM.prevLink.title);
+        }
       },
 
       touchHandleSwipeRight: () => {
-        MM.populateModal(MM.nextLink.href, MM.nextLink.title);
+        if (MM.nextLink) {
+          MM.populateModal(MM.nextLink.href, MM.nextLink.title);
+        }
       },
 
       touchSetup: () => {
