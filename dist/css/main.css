@@ -63,13 +63,23 @@ body {
     top: 10%; }
   #modal-window .modal-image-view #modal-image {
     height: auto;
-    width: auto;
-    -webkit-animation: fadeIn ease 3s;
-            animation: fadeIn ease 3s; }
+    width: auto; }
   #modal-window .modal-text-view #modal-text {
     text-align: center;
     padding: 1rem;
     color: #FFFFFF;
     font-family: inherit; }
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
 
 /******** END MODAL  *********/

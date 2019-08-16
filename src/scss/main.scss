@@ -91,7 +91,8 @@ body {
     #modal-image { // img element
       height: auto;
       width: auto;
-      animation: fadeIn ease 3s;
+      // animation: fadeIn ease 3s;
+      // animation: fadeIn 2s ease-in linear;
     } // #modal-image
   } // .modal-image-view
 
@@ -104,5 +105,14 @@ body {
     } // #modal-text
   } // .modal-text-view
 } // #modal-window
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+} // @keyframes fadeIn
 
 /******** END MODAL  *********/

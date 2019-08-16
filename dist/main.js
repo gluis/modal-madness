@@ -63,7 +63,7 @@
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "2e84570538c94fa6d125";
+/******/ 	var hotCurrentHash = "94e9494b6e86ce35ff8b";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -10754,17 +10754,138 @@ var MM = {
   // Node list
   simpleLinks: [],
   // Array
+  prevLink: '',
+  nextLink: '',
+  currentModalImage: '',
+  initialX: null,
+  touchListening: false,
+  touchDirection: 0,
+  adjustModalHeight: function adjustModalHeight() {
+    if (!mobileFunctions.isMobile()) {
+      var windowHeight = window.innerHeight;
+      var windowWidth = window.innerWidth;
+      var modalImageHeight = MM.currentModalImage.height;
+      var modalImageWidth = MM.currentModalImage.width;
+      var modalContent = document.querySelector("#modal-content");
+      var modalContentHeight = modalContent.offsetHeight;
+      var modalPrev = document.querySelector("#modal-prev");
+      var modalNext = document.querySelector("#modal-next");
+      MM.currentModalImage.style.height = modalImageHeight * .9 + "px"; // MM.currentModalImage.style.width = (modalImageWidth * .8) + "px";
+
+      if (modalContentHeight > windowHeight) {
+        var targetHeight = windowHeight * .8;
+        var targetWidth = targetHeight / modalImageHeight * modalImageWidth;
+        MM.currentModalImage.style.height = targetHeight + "px";
+        MM.currentModalImage.style.width = targetWidth + "px";
+        modalPrev.style.top = targetHeight / 2 + "px";
+        modalNext.style.top = targetHeight / 2 + "px";
+      } else if (modalImageWidth > windowWidth) {
+        var _targetWidth = windowWidth * .8;
+
+        var _targetHeight = _targetWidth / modalImageWidth * modalImageHeight;
+
+        MM.currentModalImage.style.height = _targetHeight + "px";
+        MM.currentModalImage.style.width = _targetWidth + "px";
+        modalPrev.style.top = _targetHeight / 2 + "px";
+        modalNext.style.top = _targetHeight / 2 + "px";
+      } else {
+        modalPrev.style.top = modalContentHeight / 2 + "px";
+        modalNext.style.top = modalContentHeight / 2 + "px";
+      }
+
+      modalPrev.style.left = '16px';
+      modalNext.style.right = '16px';
+    } else {
+      var _modalPrev = document.querySelector("#modal-prev");
+
+      var _modalNext = document.querySelector("#modal-next");
+
+      _modalPrev.style.top = '-100px';
+      _modalNext.style.top = '-100px';
+      MM.currentModalImage.style.width = "100%";
+    }
+  },
+  adjustModalImageSize: function adjustModalImageSize() {
+    if (!mobileFunctions.isMobile()) {
+      console.log('adjusting modal image?'); // implement
+    } //   const images = document.querySelectorAll('.slide-background img')
+    //   if (images.length > 0) {
+    //     images.forEach(i => {
+    //       const imageHeight = i.height;
+    //       const imageWidth = i.width;
+    //       const windowHeight = window.innerHeight;
+    //       if (imageHeight > windowHeight * .75) {
+    //         const targetHeight = windowHeight * .75;
+    //         const targetWidth = (targetHeight/imageHeight) * imageWidth;
+    //         i.style.height = targetHeight + "px";
+    //         i.style.width = targetWidth + "px";
+    //       }
+    //     });
+    //   }
+    // }
+
+  },
+  afterModalLoaded: function afterModalLoaded() {
+    event.preventDefault();
+    MM.adjustModalHeight();
+    MM.getAdjacentLinks();
+
+    if (!MM.touchListening) {
+      MM.touchSetup();
+    }
+  },
+  cleanUp: function cleanUp() {
+    var modalWindow = document.querySelector("#modal-window");
+    modalWindow.classList.remove("active");
+    MM.clearModal();
+    MM.currentModalImage = '';
+    MM.prevLink = '';
+    MM.nextLink = '';
+    MM.initialX = null;
+    MM.touchListening = false;
+    MM.touchDirection = 0;
+  },
+  clearModal: function clearModal() {
+    var modalText = document.querySelector('#modal-text');
+    var modalPrev = document.querySelector("#modal-prev");
+    var modalNext = document.querySelector("#modal-next");
+    modalNext.removeEventListener("click", MM.handlePopulateModal);
+    modalPrev.removeEventListener("click", MM.handlePopulateModal);
+    MM.currentModalImage.alt = "";
+    MM.currentModalImage.src = "";
+    MM.currentModalImage.style = "";
+    modalText.innerHTML = "";
+  },
+  closeModal: function closeModal() {
+    var modalClose = document.querySelector("#modal-close");
+
+    if (modalClose) {
+      modalClose.addEventListener("click", function (e) {
+        e.preventDefault();
+        MM.cleanUp();
+      });
+    }
+  },
   collectModals: function collectModals() {
     MM.modalLinks = document.querySelectorAll(".modal-link");
   },
-  getAdjacentLinks: function getAdjacentLinks(currentLinkSrc) {
-    var prevLink, nextLink, currentIndex;
+  getAdjacentLinks: function getAdjacentLinks() {
+    var currentIndex;
     currentIndex = MM.simpleLinks.findIndex(function (l) {
-      return l.href === currentLinkSrc;
+      return l.href === MM.currentModalImage.src;
     });
-    prevLink = currentIndex - 1 > -1 ? MM.simpleLinks[currentIndex - 1] : false;
-    nextLink = currentIndex + 1 < MM.simpleLinks.length ? MM.simpleLinks[currentIndex + 1] : false;
-    MM.populateAdjacentLinks(prevLink, nextLink);
+    MM.prevLink = currentIndex - 1 > -1 ? MM.simpleLinks[currentIndex - 1] : false;
+    MM.nextLink = currentIndex + 1 < MM.simpleLinks.length ? MM.simpleLinks[currentIndex + 1] : false;
+    MM.populateAdjacentLinks();
+  },
+  handlePopulateModal: function handlePopulateModal() {
+    event.preventDefault();
+
+    if (event.target.id === 'modal-prev') {
+      MM.populateModal(MM.prevLink.href, MM.prevLink.title);
+    } else {
+      MM.populateModal(MM.nextLink.href, MM.nextLink.title);
+    }
   },
   modalMadness: function modalMadness() {
     MM.collectModals();
@@ -10779,166 +10900,117 @@ var MM = {
         var title = modalLink.title;
         var href = modalLink.href;
         MM.populateModal(href, title);
-      }, {
-        once: true
-      });
-    }); // document.addEventListener('click', e => {
-    //   if (e.target.parentNode.classList.contains('modal-link')) {
-    //     e.preventDefault();
-    //     const a = e.target.parentNode;
-    //     const title = a.getAttribute("data-title");
-    //     const href = a.href;
-    //     MM.populateModal(href, title);
-    //   }
-    // }, false);
-    // window.simpleLinks = MM.simpleLinks;
-  },
-  // adjustImageSizes: () => {
-  //   if (!mobileFunctions.isMobile()) {
-  //     const images = document.querySelectorAll('.slide-background img')
-  //     if (images.length > 0) {
-  //       images.forEach(i => {
-  //         const imageHeight = i.height;
-  //         const imageWidth = i.width;
-  //         const windowHeight = window.innerHeight;
-  //         if (imageHeight > windowHeight * .75) {
-  //           const targetHeight = windowHeight * .75;
-  //           const targetWidth = (targetHeight/imageHeight) * imageWidth;
-  //           i.style.height = targetHeight + "px";
-  //           i.style.width = targetWidth + "px";
-  //         }
-  //       });
-  //     }
-  //   }
-  // },
-  adjustModalHeight: function adjustModalHeight(modalImage) {
-    if (!mobileFunctions.isMobile()) {
-      var windowHeight = window.innerHeight;
-      var modalImageHeight = modalImage.height;
-      var modalImageWidth = modalImage.width;
-      var modalContent = document.querySelector("#modal-content");
-      var modalContentHeight = modalContent.offsetHeight;
-      var modalPrev = document.querySelector("#modal-prev");
-      var modalNext = document.querySelector("#modal-next");
-
-      if (modalContentHeight > windowHeight) {
-        var targetHeight = windowHeight * .8;
-        var targetWidth = targetHeight / modalImageHeight * modalImageWidth;
-        modalImage.style.height = "auto";
-        modalImage.style.width = "auto";
-        modalImage.style.height = targetHeight + "px";
-        modalImage.style.width = targetWidth + "px";
-        modalPrev.style.top = targetHeight / 2 + "px";
-        modalNext.style.top = targetHeight / 2 + "px";
-      } else {
-        modalImage.style.height = "auto";
-        modalImage.style.width = "auto";
-        modalPrev.style.top = modalContentHeight / 2 + "px";
-        modalNext.style.top = modalContentHeight / 2 + "px";
-      }
-
-      modalPrev.style.left = '16px';
-      modalNext.style.right = '16px';
-      MM.getAdjacentLinks(modalImage.src);
-    } else {
-      var _modalPrev = document.querySelector("#modal-prev");
-
-      var _modalNext = document.querySelector("#modal-next");
-
-      _modalPrev.style.top = '-100px';
-      _modalNext.style.top = '-100px';
-      modalImage.style.width = "100%";
-      MM.getAdjacentLinks(modalImage.src);
-    }
-  },
-  handlePopulateModal: function handlePopulateModal(evt, src, title) {
-    evt.preventDefault();
-    MM.populateModal(src, title);
-  },
-  populateModal: function populateModal(imageSrc, titleText) {
-    console.log('populateModal');
-    MM.clearModal();
-    var modalWindow = document.querySelector('#modal-window');
-    var modalImage = document.querySelector('#modal-image');
-    var modalText = document.querySelector('#modal-text');
-    modalWindow.classList.add('active');
-    modalImage.src = imageSrc;
-    modalImage.alt = titleText;
-    modalText.innerHTML = titleText;
-    console.log('about to adjustModalHeight');
-    MM.adjustModalHeight(modalImage);
-    modalImage.addEventListener("load", function (e) {
-      e.preventDefault(); // console.log('about to adjustModalHeight');
-      // MM.adjustModalHeight(modalImage);
-    }, {
-      once: true
+      }, true);
     });
+    MM.watchResize();
   },
-  populateAdjacentLinks: function populateAdjacentLinks(prevLink, nextLink) {
-    console.log('inside populateAdjacentLinks');
+  populateAdjacentLinks: function populateAdjacentLinks() {
     var modalPrev = document.querySelector("#modal-prev");
     var modalNext = document.querySelector("#modal-next");
 
-    if (prevLink) {
-      var prevLinkSrc = prevLink.href;
-      var prevLinkTitle = prevLink.title;
-      modalPrev.addEventListener("click", function (e) {
-        e.preventDefault();
-        MM.populateModal(prevLinkSrc, prevLinkTitle);
-      }, {
-        once: true
-      });
+    if (MM.prevLink) {
+      modalPrev.addEventListener("click", MM.handlePopulateModal, true);
     } else {
       modalPrev.style.top = "-100px";
     }
 
-    if (nextLink) {
-      var nextLinkSrc = nextLink.href;
-      var nextLinkTitle = nextLink.title;
-      modalNext.addEventListener("click", function (e) {
-        e.preventDefault(); // console.log('pop modal in next link')
-
-        MM.populateModal(nextLinkSrc, nextLinkTitle);
-      }, {
-        once: true
-      });
+    if (MM.nextLink) {
+      modalNext.addEventListener("click", MM.handlePopulateModal, true);
     } else {
       modalNext.style.top = "-100px";
     }
-  },
-  clearModal: function clearModal() {
-    var modalImage = document.querySelector('#modal-image');
-    var modalText = document.querySelector('#modal-text'); // const prevLink = document.querySelector("#modal-prev");
-    // const nextLink = document.querySelector("#modal-next");
 
-    modalImage.alt = "";
-    modalImage.src = "";
-    modalText.innerHTML = "";
-    modalImage.style = "";
+    MM.currentModalImage.removeEventListener("load", MM.afterModalLoaded);
   },
-  closeModal: function closeModal() {
-    var modalWindow = document.querySelector("#modal-window");
-    var modalClose = document.querySelector("#modal-close");
+  populateModal: function populateModal(imageSrc, titleText) {
+    MM.clearModal();
+    var modalWindow = document.querySelector('#modal-window');
+    MM.currentModalImage = document.querySelector('#modal-image');
+    var modalText = document.querySelector('#modal-text');
+    modalWindow.classList.add('active');
+    MM.currentModalImage.src = imageSrc;
+    MM.currentModalImage.alt = titleText;
+    modalText.innerHTML = titleText;
+    MM.fadeIn(MM.currentModalImage);
+    MM.currentModalImage.addEventListener("load", MM.afterModalLoaded, true);
+  },
+  // TOUCH ADDITIONS
+  touchHandleCancel: function touchHandleCancel() {
+    event.preventDefault();
+  },
+  touchHandleEnd: function touchHandleEnd() {
+    event.preventDefault();
 
-    if (modalClose) {
-      modalClose.addEventListener("click", function (e) {
-        e.preventDefault();
-        modalWindow.classList.remove("active");
-        MM.clearModal();
-      });
+    if (MM.touchDirection > 0) {
+      MM.touchHandleSwipeRight();
+    } else if (MM.touchDirection < 0) {
+      MM.touchHandleSwipeLeft();
     }
+  },
+  touchHandleMove: function touchHandleMove() {
+    event.preventDefault();
+
+    if (MM.initialX === null) {
+      return;
+    }
+
+    var currentX = event.touches[0].clientX;
+    var diffX = MM.initialX - currentX;
+
+    if (diffX > 0) {
+      MM.touchDirection = 1;
+    } else if (diffX < 0) {
+      MM.touchDirection = -1;
+    } else if (diffX === 0) {
+      return;
+    }
+  },
+  touchHandleStart: function touchHandleStart() {
+    event.preventDefault();
+    MM.initialX = event.touches[0].clientX;
+  },
+  touchHandleSwipeLeft: function touchHandleSwipeLeft() {
+    MM.populateModal(MM.prevLink.href, MM.prevLink.title);
+  },
+  touchHandleSwipeRight: function touchHandleSwipeRight() {
+    MM.populateModal(MM.nextLink.href, MM.nextLink.title);
+  },
+  touchSetup: function touchSetup() {
+    MM.currentModalImage.addEventListener('touchstart', MM.touchHandleStart, false);
+    MM.currentModalImage.addEventListener('touchmove', MM.touchHandleMove, false);
+    MM.currentModalImage.addEventListener('touchcancel', MM.touchHandleCancel, false);
+    MM.currentModalImage.addEventListener('touchend', MM.touchHandleEnd, false);
+    MM.touchListening = true;
+  },
+  // END TOUCH ADDITIONS
+  // ANIMATION
+  fadeIn: function fadeIn(element) {
+    element.style.opacity = 0;
+    var start = Date.now();
+    var fadeUp = setInterval(function () {
+      var milliseconds = Date.now() - start;
+
+      if (milliseconds >= 2000 || element.style.opacity > 1) {
+        clearInterval(fadeUp);
+        return;
+      }
+
+      element.style.opacity = parseFloat(element.style.opacity) + 0.01;
+    });
+  },
+  // END ANIMATION
+  // ensure popup images shrink if window does
+  watchResize: function watchResize() {
+    window.addEventListener('resize', function () {
+      if (MM.currentModalImage) {
+        MM.adjustModalImageSize();
+      }
+    });
   },
   modalInit: function modalInit() {
     MM.modalMadness();
     MM.closeModal();
-  } // ensure popup images shrink if window does
-  // watchResize: () => {
-  //   window.addEventListener('resize', () => {
-  //     MM.adjustImageSizes();
-  //   })
-  // }
-  // END POPUPS & GALLERIES
-
+  }
 };
 module.exports = MM;
 
