@@ -7,8 +7,6 @@ const MM = {
   prevLink: '',
   nextLink: '',
   currentModalImage: '',
-  initialX: null,
-  initialY: null,
   touchListening: false,
   touchDirection: 0,
   touchVerticalScroll: false,
@@ -111,8 +109,6 @@ const MM = {
     MM.nextLink = ''
     MM.initialX = null
     MM.touchListening = false
-    MM.touchDirection = 0
-    MM.touchVerticalScroll = false
   },
 
   clearModal: () => {
@@ -217,7 +213,7 @@ const MM = {
   },
 
   // TOUCH ADDITIONS
-  // library that detects up/down && left/right swipes
+  // event library that detects up/down && left/right swipes
   // version of https://stackoverflow.com/a/53413919
   detectTouch: () => {
     const newEvent = (evt, name) => {
@@ -303,91 +299,6 @@ const MM = {
     }
   },
 
-  // touchHandleCancel: () => {
-  //   // event.preventDefault()
-  // },
-  // touchHandleEnd: () => {
-  //   // console.log('event', event)
-  //   if (event) {
-  //     // let currentX = event.touches[0].clientX
-  //     let currentX = event.targetTouches[0].clientX
-  //     let diffX = MM.initialX - currentX
-  //     let currentY = event.targetTouches[0].clientY
-  //     let diffY = MM.initialY - currentY
-  //     // console.log('currentX', currentX)
-  //     // console.log('diffX', diffX)
-  //     // console.log('currentY', currentY)
-  //     // console.log('diffY', diffY)
-
-  //     if (Math.abs(diffX) > Math.abs(diffY)) {
-  //       // horizontal
-  //       console.log('horizontal');
-
-  //       if (diffX > 0) {
-  //         // MM.touchDirection = 1
-  //         MM.touchHandleSwipeRight()
-  //       } else if (diffX < 0) {
-  //         // MM.touchDirection = -1
-  //         MM.touchHandleSwipeLeft()
-  //       } else if (diffX === 0) {
-  //         return
-  //       }
-  //       // event.preventDefault()
-  //     } else {
-  //       // vertical
-  //       console.log('vertical');
-  //     }
-
-  //     // if (diffX > 0) {
-  //     //   MM.touchDirection = 1
-  //     // } else if (diffX < 0) {
-  //     //   MM.touchDirection = -1
-  //     // } else if (diffX === 0) {
-  //     //   return
-  //     // }
-
-
-
-  //     // console.log('MM.touchVerticalScroll', MM.touchVerticalScroll);
-
-  //     // if (MM.touchVerticalScroll) {
-  //     //   return
-  //     // } else {
-  //     // if (MM.touchDirection > 0) {
-  //     //   MM.touchHandleSwipeRight()
-  //     // } else if (MM.touchDirection < 0) {
-  //     //   MM.touchHandleSwipeLeft()
-  //     // }
-  //     // }
-
-  //   }
-
-  // },
-
-  // touchHandleMove: () => {
-  //   // event.preventDefault()
-  //   if (MM.initialX === null) {
-  //     return
-  //   }
-  //   // let currentX = event.targetTouches[0].clientX
-  //   // let diffX = MM.initialX - currentX
-
-  //   // if (diffX > 0) {
-  //   //   MM.touchDirection = 1
-  //   // } else if (diffX < 0) {
-  //   //   MM.touchDirection = -1
-  //   // } else if (diffX === 0) {
-  //   //   return
-  //   // }
-
-  // },
-
-  // touchHandleStart: () => {
-  //   // event.preventDefault()
-  //   MM.initialX = event.touches[0].clientX
-  //   MM.initialY = event.touches[0].clientY
-  // },
-
   touchHandleSwipeLeft: () => {
     if (MM.prevLink) {
       MM.populateModal(MM.prevLink.href, MM.prevLink.title)
@@ -401,10 +312,6 @@ const MM = {
   },
 
   touchSetup: () => {
-    // MM.currentModalImage.addEventListener('touchstart', MM.touchHandleStart, false)
-    // MM.currentModalImage.addEventListener('touchmove', MM.touchHandleMove, false)
-    // MM.currentModalImage.addEventListener('touchend', MM.touchHandleEnd, false)
-    // MM.currentModalImage.addEventListener('touchcancel', MM.touchHandleCancel, false)
     MM.detectTouch();
     MM.touchListening = true
     MM.currentModalImage.addEventListener('left', MM.touchHandleSwipeLeft, false)
