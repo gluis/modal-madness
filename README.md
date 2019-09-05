@@ -3,6 +3,10 @@
 A lean vanilla JS modal/slide library w/ support for left/right swipe/touch.
 Find usable files in /dist/ or build (see below)
 
+#### Need it now? 
+
+Just grab it in the dist/ directory. See Usage below for how to...use it.
+
 #### Testing/Using in dev
 
     npm run start
@@ -30,5 +34,4 @@ results found in /dist/modalmadness.js and /dist/css/modalmadness.css
 
 #### Demo
 
-Coming...
-
+There's a [simple one](https://gluis.github.io/) that should help you out.

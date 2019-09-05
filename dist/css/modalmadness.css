@@ -2,7 +2,7 @@ body {
   font-family: 'Josefin Slab', serif;
   font-size: 20px;
   color: #d77100;
-  background-color: #3a361f; }
+  background-color: #000000; }
 
 #container {
   margin: 2rem auto;
@@ -11,6 +11,7 @@ body {
 /******** GALLERY-NEW  *********/
 .gallery-page-new h1 {
   font-size: 3rem;
+  font-weight: 300;
   margin: 1rem 0;
   padding-left: 1rem;
   padding-right: 1rem;
