@@ -15,7 +15,9 @@ results found in /dist/modalmadness.js and /dist/css/modalmadness.css
 
 #### Usage
 
-Include modalmadness.js (i.e. rename main.js to modalmadness.js) then initialize it: e.g. 
+1. See html/template.html for how to use the markup (specific elements w/ IDs and classes).
+
+2. Include modalmadness.js (i.e. rename main.js to modalmadness.js) then initialize it: e.g. 
 
     <link rel="stylesheet" href="/path/to/where/you/put/it/modalmadness.css">
 
