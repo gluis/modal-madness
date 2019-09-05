@@ -1,3 +1,6 @@
-const MM = require('./modal-madness.js');
-
-MM.modalInit();
+/*!
+  ModalMadness v.0.1 .0
+  ISC License
+  Copyright Nataloo
+ */
+require('./modalmadness');

@@ -1,6 +1,6 @@
 {
   "name": "modal-madness",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "javascript and html modal library",
   "private": true,
   "scripts": {
@@ -24,9 +24,8 @@
     "webpack": "^4.39.2",
     "webpack-cli": "^3.3.6",
     "webpack-dev-server": "^3.8.0",
-    "write-file-webpack-plugin": "^4.5.1"
-  },
-  "dependencies": {
+    "write-file-webpack-plugin": "^4.5.1",
     "autoprefixer": "^9.6.1"
-  }
+  },
+  "dependencies": {}
 }
