@@ -1,15 +1,25 @@
 body {
-  font-family: sans-serif; }
+  font-family: 'Josefin Slab', serif;
+  font-size: 20px;
+  color: #d77100;
+  background-color: #3a361f; }
+
+#container {
+  margin: 2rem auto;
+  max-width: 900px; }
 
 /******** GALLERY-NEW  *********/
 .gallery-page-new h1 {
-  font-size: 1.5rem;
-  font-weight: 300;
+  font-size: 3rem;
   margin: 1rem 0;
-  line-height: 2rem; }
+  padding-left: 1rem;
+  padding-right: 1rem;
+  line-height: 4rem;
+  font-family: 'Monoton', cursive; }
 
 .gallery-page-new .blurb p {
   padding-bottom: 1rem;
+  padding-left: 1rem;
   -moz-column-width: 600px;
        column-width: 600px;
   -moz-column-gap: 2rem;
@@ -23,9 +33,16 @@ body {
   align-items: center; }
   .gallery-page-new .thumbnail-container .gallery-thumb {
     width: 250px;
-    padding: 1rem; }
+    padding: 1rem;
+    box-shadow: 0px 0px 0px 233px rgba(8, 67, 126, 0.22); }
     .gallery-page-new .thumbnail-container .gallery-thumb img {
-      width: 100%; }
+      -o-object-fit: cover;
+         object-fit: cover;
+      -o-object-position: 100% 0;
+         object-position: 100% 0;
+      width: 250px;
+      height: 250px;
+      opacity: 0.8; }
 
 /******** END GALLERY-NEW  *********/
 /******** MODAL  *********/
@@ -42,13 +59,15 @@ body {
     left: 0;
     z-index: 40;
     overflow: scroll; }
-  #modal-window #modal-prev, #modal-window #modal-next {
+  #modal-window #modal-prev,
+  #modal-window #modal-next {
     color: #FFFFFF;
     position: absolute;
     padding: 2rem;
     font-size: 2rem;
     z-index: 10; }
-    #modal-window #modal-prev:hover, #modal-window #modal-next:hover {
+    #modal-window #modal-prev:hover,
+    #modal-window #modal-next:hover {
       cursor: pointer; }
   #modal-window #modal-close {
     color: #FFFFFF;
