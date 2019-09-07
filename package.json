@@ -1,6 +1,6 @@
 {
-  "name": "modal-madness",
-  "version": "0.1.0",
+  "name": "@gluis/modalmadness",
+  "version": "1.0.0",
   "description": "javascript and html modal library",
   "private": true,
   "scripts": {

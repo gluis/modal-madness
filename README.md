@@ -19,6 +19,10 @@ results found in /dist/modalmadness.js and /dist/css/modalmadness.css
 
 #### Usage
 
+npm: coming...
+
+Manual file usage:
+
 1. See html/template.html for how to use the markup (specific elements w/ IDs and classes).
 
 2. Include modalmadness.js then initialize it: e.g. 

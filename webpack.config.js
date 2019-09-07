@@ -5,7 +5,6 @@ const webpack = require('webpack');
 module.exports = {
   entry: ['./src/js/index.js', './src/scss/modalmadness.scss'],
   output: {
-    // path: path.resolve(__dirname, 'dist'),
     filename: 'modalmadness.js',
     path: path.join(__dirname, './dist')
   },
@@ -51,7 +50,6 @@ module.exports = {
   stats: {
     colors: true
   },
-  devtool: 'source-map',
   devServer: {
     "stats": "errors-only",
     host: process.env.HOST,
