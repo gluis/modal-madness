@@ -15,7 +15,7 @@ Just grab it in the dist/ directory. See Usage below for how to...use it.
 
     npm run build
 
-results found in /dist/modalmadness.js and /dist/css/modalmadness.css
+results found in /dist/modal-madness.js and /dist/css/modal-madness.css
 
 #### Usage
 
@@ -25,9 +25,9 @@ Manual file usage:
 
 2. Include modalmadness.js then initialize it: e.g. 
 
-        <link rel="stylesheet" href="/path/to/where/you/put/it/modalmadness.css">
+        <link rel="stylesheet" href="/path/to/where/you/put/it/modal-madness.css">
 
-        <script src="/path/to/where/you/put/it/modalmadness.js"></script>
+        <script src="/path/to/where/you/put/it/modal-madness.js"></script>
         <script>
             if (modalMadness) {
                 modalMadness.init()
