@@ -3,9 +3,9 @@ const WriteFilePlugin = require('write-file-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
-  entry: ['./src/js/index.js', './src/scss/modalmadness.scss'],
+  entry: ['./src/js/index.js', './src/scss/modal-madness.scss'],
   output: {
-    filename: 'modalmadness.js',
+    filename: 'modal-madness.js',
     path: path.join(__dirname, './dist')
   },
   plugins: [

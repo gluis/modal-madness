@@ -3,4 +3,4 @@
   ISC License
   Copyright Nataloo
  */
-require('./modalmadness');
+require('./modal-madness');
