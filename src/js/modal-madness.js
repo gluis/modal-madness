@@ -1,4 +1,3 @@
-// library re-write
 (function (window) {
   'use strict'
 
@@ -73,7 +72,7 @@
 
     const adjustModalImageSize = () => {
       if (!mobileFunctions.isMobile()) {
-        console.log('adjusting modal image?')
+        // console.log('adjusting modal image?')
         // implement
 
       }

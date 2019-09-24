@@ -10,6 +10,7 @@ module.exports = {
   },
   plugins: [
     new WriteFilePlugin(),
+    new webpack.BannerPlugin('ModalMadness v .1 .0 ISC License Copyright Nataloo')
   ],
   module: {
     rules: [{
