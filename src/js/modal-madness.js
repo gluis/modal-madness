@@ -167,9 +167,11 @@
     const modalMadness = () => {
       collectModals()
       modalLinks.forEach(link => {
+        const img = new Image().src = link.href
         const modalLink = {
           'href': link.href,
-          'title': link.getAttribute("data-title")
+          'title': link.getAttribute("data-title"),
+          'img': img
         }
         simpleLinks.push(modalLink)
 
@@ -199,7 +201,7 @@
       currentModalImage.removeEventListener("load", afterModalLoaded)
     }
 
-    const populateModal = (imageSrc, titleText) => {
+    const populateModal = (imageSrc, titleText, imageObj = {}) => {
       if (currentModalImage) {
         clearModal()
       }
